@@ -1,2 +1,3 @@
-# Sine Wave Animation
-<br>[Live Version Here](https://sinewaveanimation-sumanta.netlify.app/)
+# Sine & Cosine Animation
+
+<br>[Live Version Here](https://sinecosineanimation-sumanta.netlify.app/)
