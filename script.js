@@ -10,9 +10,9 @@ let gameFrame = 0;
 class Enemy {
   constructor() {
     this.enemyImg = new Image();
-    this.enemyImg.src = "img/enemy2.png";
-    this.enemyWidth = 266;
-    this.enemyHeight = 188;
+    this.enemyImg.src = "img/enemy3.png";
+    this.enemyWidth = 218;
+    this.enemyHeight = 177;
     this.width = this.enemyWidth / 2.5;
     this.height = this.enemyHeight / 2.5;
     this.x = Math.random() * (canvasWidth - this.width);
@@ -22,15 +22,19 @@ class Enemy {
     this.flapSpeed = Math.floor(Math.random() * 3 + 1); //this ensures each enemy has different flap speed
     //for sine wave like patter of enemies
     this.angle = 0; //this determines starting point along the sine wave that the sprite first appears.
-    this.angleSpeed = Math.random() * 0.2; //randomized value is better since it gives each enemy an unique wave/speed/animation
+    this.angleSpeed = Math.random() * 2; //randomized value is better since it gives each enemy an unique wave/speed/animation
     //change below value to increase difficulty of game
     //or to increase wavy-ness of the sprites
-    this.curve = Math.random() * 7; //higher value gives more prominent sine wave
-  }
+    this.curve = Math.random() * 170; //higher value gives more prominent wave. But in this it determines the radius since sin and cosine are combined. So, higher value will give bigger circles.
   resetFrame() {
-    this.x -= this.speed; //for right to left movement
-    this.y += this.curve * Math.sin(this.angle); //for sine wave. Higher value gives prominent curve(Don't remember trigonometry and I don't want to know why either). Math.sin() returns -1 to +1. But for this it's (-1,+1)*3
-    this.angle += this.angleSpeed; //every iteration anngle changes. Play with this value to adjust the wave
+    this.x =
+      this.curve * this.angleSpeed * Math.sin((this.angle * Math.PI) / 180) +
+      (canvas.width / 2 - this.width / 2); //adjust values here to change speed and location of wave
+    this.y =
+      this.curve * this.angleSpeed * Math.cos((this.angle * Math.PI) / 180) +
+      (canvas.height / 2 - this.height / 2); //why cos? idk. I forgot trigonometry. sin with cosine gives a circular path, that's all that matter for this
+    //play with above values to adjust speed, radius, wave pattern, etc
+    this.angle += this.angleSpeed; //every iteration angle changes. Play with this value to adjust the wave
     if (this.x + this.width < 0) this.x = canvasWidth; //infinite right to left movement
     if (gameFrame % this.flapSpeed === 0) {
       this.enemyFrame >= 5 ? (this.enemyFrame = 0) : this.enemyFrame++;
